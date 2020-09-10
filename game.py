@@ -56,7 +56,7 @@ def
 
 
 def run_game():
-    '''Main Function to run the game'''
+    '''Main Function to run the game.'''
 
     cards_deck = card_deck()
     cards_deck, player_cards, floor = first_card_issue_and_floor(cards_deck)

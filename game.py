@@ -1,4 +1,6 @@
 import random
+import cpu_player, player
+
 
 """BASIC TEXT BASED CRAZY EIGHT CARD GAME"""
 """cards are held in cards.txt"""
@@ -47,8 +49,10 @@ def player(cards_deck, player_cards, floor):
     while i < 2:
         if floor_to_list[i] in  
 
+def cpu_player(cards_deck, player_cards, floor):
+    '''Function to simulate cpu as player, return values = floor, cards_deck'''
 
-
+def
 
 
 def run_game():

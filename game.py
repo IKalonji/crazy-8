@@ -1,5 +1,6 @@
 import random
-import cpu_player, player
+from cpu_player import cpu_player
+from player import player
 
 
 """BASIC TEXT BASED CRAZY EIGHT CARD GAME"""
@@ -21,7 +22,8 @@ def card_deck():
 
 def first_card_issue_and_floor(card_deck):
     '''Function to issue the first set of cards to player and comp'''
-
+    random.shuffle(card_deck) #shuffle the card deck
+    print("The card deck has been shuffled")
     player_cards = []
     while len(player_cards) != 5: 
         card = random.choice(card_deck) #generate a random card from the card list
@@ -42,24 +44,12 @@ def first_card_issue_and_floor(card_deck):
 
     return card_deck, player_cards, floor 
 
-def player(cards_deck, player_cards, floor):
-    '''Function for the main player'''
-    floor_to_list = list(floor)
-    i = 0
-    while i < 2:
-        if floor_to_list[i] in  
-
-def cpu_player(cards_deck, player_cards, floor):
-    '''Function to simulate cpu as player, return values = floor, cards_deck'''
-
-def
-
-
 def run_game():
     '''Main Function to run the game.'''
 
     cards_deck = card_deck()
     cards_deck, player_cards, floor = first_card_issue_and_floor(cards_deck)
+    player(cards_deck, player_cards, floor)
 
 
 run_game()

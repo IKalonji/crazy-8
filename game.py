@@ -20,36 +20,41 @@ def card_deck():
     card_file.close() #close the file
     return card_list 
 
-def first_card_issue_and_floor(card_deck):
+def first_card_issue(cards_deck):
     '''Function to issue the first set of cards to player and comp'''
-    random.shuffle(card_deck) #shuffle the card deck
-    print("The card deck has been shuffled")
+    random.shuffle(cards_deck) #shuffle the card deck
+    print("The card deck has been shuffled") 
     player_cards = []
     while len(player_cards) != 5: 
-        card = random.choice(card_deck) #generate a random card from the card list
+        card = random.choice(cards_deck) #generate a random card from the card list
         if card in player_cards:    #check for a duplicate card, since only one deck is being used
             continue
         else: 
             player_cards.append(card) #append the card to the players cards
-            card_deck.remove(card)  #remove the card from the deck.
+            cards_deck.remove(card)  #remove the card from the deck.
     print("Your cards have been issued. {} \n\n".format(player_cards))
-    
+
+    return cards_deck, player_cards,
+
+def floor_card_issue(cards_deck):   
+    '''Function to issue the first card on the floor'''
+
     while True:
-        floor = random.choice(card_deck) #generate a random card to start the game. 
+        floor = random.choice(cards_deck) #generate a random card to start the game. 
         if ('8' in floor) or ('10' in floor) or ('JACK' in floor) or ('JOKER' in floor): #if any special card was chosen then process should be repeated
             continue
         else:
             print("\n\nOn the floor: ", floor)
             break 
-
-    return card_deck, player_cards, floor 
+    return floor 
 
 def run_game():
     '''Main Function to run the game.'''
 
     cards_deck = card_deck()
-    cards_deck, player_cards, floor = first_card_issue_and_floor(cards_deck)
+    cards_deck, player_cards = first_card_issue(cards_deck)
+    cards_deck, cpu_player_cards = first_card_issue(cards_deck)
+    floor = floor_card_issue(cards_deck)
     player(cards_deck, player_cards, floor)
-
 
 run_game()

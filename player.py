@@ -30,6 +30,7 @@ def player(cards_deck, player_cards, floor):
         new_card = random.choice(cards_deck)
         print("here is your card: ", new_card)
         player_cards.append(new_card)
+        print(player_cards)
         cards_deck.remove(new_card)
 
     return cards_deck, player_cards, floor

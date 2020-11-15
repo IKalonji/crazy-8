@@ -7,7 +7,6 @@ def player(cards_deck, player_cards, floor):
     valid = 0 #track whether player has a valid card
     for item in floor_to_list: #first loop to isolate an element from floor to list to check whether it is present in the players available cards
         for element in player_cards:
-            print(item, element)
             if item in element:
                 valid += 1
     if valid > 0: # player has a valid card
@@ -21,13 +20,14 @@ def player(cards_deck, player_cards, floor):
                     sys.exit()
                 else:
                     played = int(played)
-            except ValueError as val_err:
-                print("Invalid input, try again")
-                continue
+                    played = player_cards[played-1] #assigning the item @ index value to played
             except IndexError as index_err:
                 print("Invalid input, try again")
                 continue
-            played = player_cards[played-1] #assigning the item @ index value to played
+            except ValueError as val_err:
+                print("Invalid input, try again")
+                continue
+            
             for element in floor_to_list: # check if the selected card is in fact correct, check if any element is present in the floor card
                 invalid = 0  
                 if not element in played: # check invalid element, if it is invalid, counter should increase

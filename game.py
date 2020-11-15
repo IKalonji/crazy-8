@@ -52,16 +52,22 @@ def floor_card_issue(cards_deck):
 
 def run_game():
     '''Main Function to run the game.'''
-
+    print("Starting game")
     cards_deck = card_deck()
 
     cards_deck, player_cards = first_card_issue(cards_deck)
-    # cards_deck, cpu_player_cards = first_card_issue(cards_deck)
+    cards_deck, cpu_player_cards = first_card_issue(cards_deck)
     floor = floor_card_issue(cards_deck)
     while True:
+        print("PLAYER 1")
         cards_deck, player_cards, floor =  player(cards_deck, player_cards, floor)
         print("\n")
         time.sleep(2)
+        print("PLAYER CPU")
+        cards_deck, cpu_player_cards, floor = cpu_player(cards_deck, cpu_player_cards, floor)
+        time.sleep(2)
+        print("\n")
 
 
-run_game()
+if __name__ == "__main__":
+    run_game()

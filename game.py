@@ -1,4 +1,5 @@
 import random
+import time
 from cpu_player import cpu_player
 from player import player
 
@@ -14,11 +15,12 @@ def get_player_name():
 
 def card_deck():
     '''Function to pull the cards from list'''
-
+    
     card_file = open('cards.txt', 'r') #open the card file
-    card_list = card_file.readlines() #turning each line in the file to an element in a list
+    # card_list = card_file.readlines() #turning each line in the file to an element in a list
+    card_list = [line.strip() for line in card_file]
     card_file.close() #close the file
-    return card_list 
+    return card_list
 
 def first_card_issue(cards_deck):
     '''Function to issue the first set of cards to player and comp'''
@@ -32,9 +34,9 @@ def first_card_issue(cards_deck):
         else: 
             player_cards.append(card) #append the card to the players cards
             cards_deck.remove(card)  #remove the card from the deck.
-    print("Your cards have been issued. {} \n\n".format(player_cards))
+    print("Your cards have been issued: {}".format(player_cards))
 
-    return cards_deck, player_cards,
+    return cards_deck, player_cards
 
 def floor_card_issue(cards_deck):   
     '''Function to issue the first card on the floor'''
@@ -44,7 +46,7 @@ def floor_card_issue(cards_deck):
         if ('8' in floor) or ('10' in floor) or ('JACK' in floor) or ('JOKER' in floor): #if any special card was chosen then process should be repeated
             continue
         else:
-            print("\n\nOn the floor: ", floor)
+            print("On the floor: ", floor)
             break 
     return floor 
 
@@ -52,9 +54,14 @@ def run_game():
     '''Main Function to run the game.'''
 
     cards_deck = card_deck()
+
     cards_deck, player_cards = first_card_issue(cards_deck)
-    cards_deck, cpu_player_cards = first_card_issue(cards_deck)
+    # cards_deck, cpu_player_cards = first_card_issue(cards_deck)
     floor = floor_card_issue(cards_deck)
-    player(cards_deck, player_cards, floor)
+    while True:
+        cards_deck, player_cards, floor =  player(cards_deck, player_cards, floor)
+        print("\n")
+        time.sleep(2)
+
 
 run_game()

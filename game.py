@@ -2,6 +2,8 @@ import random
 import time
 from cpu_player import cpu_player
 from player import player
+from colorama import Fore, Style
+
 
 
 """BASIC TEXT BASED CRAZY EIGHT CARD GAME"""
@@ -12,6 +14,7 @@ def get_player_name():
 
     name = input("Hi player, please enter your name: ")
     print(f"Welcome {name}. Let's get started!")
+    return name
 
 def card_deck():
     '''Function to pull the cards from list'''
@@ -53,20 +56,22 @@ def floor_card_issue(cards_deck):
 def run_game():
     '''Main Function to run the game.'''
     print("Starting game")
+    name = get_player_name()
     cards_deck = card_deck()
-
     cards_deck, player_cards = first_card_issue(cards_deck)
     cards_deck, cpu_player_cards = first_card_issue(cards_deck)
     floor = floor_card_issue(cards_deck)
+    
     while True:
-        print("PLAYER 1")
+        print(f"{Fore.GREEN}{name}")
         cards_deck, player_cards, floor =  player(cards_deck, player_cards, floor)
         print("\n")
-        time.sleep(2)
-        print("PLAYER CPU")
+        print("*"*100)
+        time.sleep(3)
+        print(f"{Fore.BLUE}CPU PLAYER")
         cards_deck, cpu_player_cards, floor = cpu_player(cards_deck, cpu_player_cards, floor)
-        time.sleep(2)
-        print("\n")
+        time.sleep(3)
+        print("*"*100)
 
 
 if __name__ == "__main__":

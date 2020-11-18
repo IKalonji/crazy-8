@@ -1,16 +1,17 @@
 '''arg: cards_deck, player_cards, floor return card_deck, floor'''
 import sys
 from random import choice
-from keep_floor import keep_floor
 
+played = None
 
 def cpu_player(cards_deck, cpu_player_cards, floor):
     '''Function to simulate cpu as player, return values = floor, cards_deck'''
+    global played
     special_cards = ['2','10','JOKER'] #list of all special cards
     to_play = ''
     token = None
     for item in special_cards: #check whether any special value is present in the floor card played by the CPU 
-        if item in floor and floor != keep_floor:
+        if item in floor and floor != played:
             token = item
             break
 
@@ -23,6 +24,7 @@ def cpu_player(cards_deck, cpu_player_cards, floor):
         if to_play != '': #check if a valid counter was found in the players cards
             print("YOU HAVE A COUNTER")
             cards_deck.append(floor)
+            played = to_play
             floor = to_play
             cpu_player_cards.remove(to_play)
             print("new card on the floor: ",floor)
@@ -55,7 +57,7 @@ def cpu_player(cards_deck, cpu_player_cards, floor):
         index_of_valid_cards = []
         for item in floor_to_list: #first loop to isolate an element from floor to list to check whether it is present in the cpu available cards
             for element in cpu_player_cards:
-                if item in element: #check if cpu has a valid card to play
+                if item in element or 'JOKER' in element: #check if cpu has a valid card to play
                     index_of_valid_cards.append(cpu_player_cards.index(element))
         if len(index_of_valid_cards) > 0: # player has a valid card
             print("------CPU has a valid card to play")
@@ -69,6 +71,12 @@ def cpu_player(cards_deck, cpu_player_cards, floor):
         elif len(cpu_player_cards) == 0:
             print("CPU Player has won")
             sys.exit()
+        elif floor == "JOKER":
+            cards_deck.append(floor)
+            played = choice(cpu_player_cards)
+            floor = played
+            cpu_player_cards.remove(played)
+            print("new card on the floor: ",floor)
         else:     
             print("------Picking up a card from the deck. CPU has no valid card to play ")
             new_card = choice(cards_deck)

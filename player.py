@@ -1,30 +1,31 @@
 import random
 import sys
-from keep_floor import keep_floor
 
+played = None #used to keep track if special the card on the floor was played by the player, so that we do not get stuck in a loop or penalty issued more than once 
 
 def player(cards_deck, player_cards, floor):
     '''Function for the main player'''
-    
+    global played
     special_cards = ['2','10','JOKER'] #list of all special cards
-    to_play = ''
+    to_play = '' #checking if the player has a valid counter card
     token = None
+    invalid = 0 #for checking if the card played is in fact valid
     for item in special_cards: #check whether any special value is present in the floor card played by the CPU 
-        if item in floor and keep_floor != floor:
+        if item in floor and played != floor:
             token = item
-            keep_floor = floor
             break
 
-    if token != None:
+    if token != None: #player has a valid counter
         print("CPU PLAYED A SPECIAL CARD")
         for element in player_cards:
             if token in element or 'ACE' in element:
-                to_play = element
+                to_play = element #assigning the counter card to be played
                 break
         if to_play != '': #check if a valid counter was found in the players cards
             print("YOU HAVE A COUNTER")
             cards_deck.append(floor)
-            floor = to_play
+            played = to_play
+            floor = to_play 
             player_cards.remove(to_play)
             print("new card on the floor: ",floor)
             return cards_deck, player_cards, floor
@@ -75,11 +76,11 @@ def player(cards_deck, player_cards, floor):
                     print("Invalid input, try again")
                     continue
                 
-                for element in floor_to_list: # check if the selected card is in fact correct, check if any element is present in the floor card
-                    invalid = 0  
-                    if not element in played: # check invalid element, if it is invalid, counter should increase
+                for element in floor_to_list: # check if the selected card is in fact correct, check if any element is present in the floor card 
+                    if not element in played and played != "JOKER": # check invalid element, if it is invalid, counter should increase
                         invalid += 1
                 if invalid > 1:
+                    print(invalid, floor_to_list, played)
                     print("That was not a valid input")
                     continue
                 else:
@@ -91,6 +92,26 @@ def player(cards_deck, player_cards, floor):
         elif len(player_cards) == 0: #if player has no card, they win
             print("Player has won") 
             sys.exit()
+        elif floor == "JOKER":
+            cards_deck.append(floor)
+            while True:
+                try:
+                    played = input("JOKER ON THE FLOOR>>Choose any card (1 being the left most card)") #getting the index of the card chosen. Index will be -1
+                    if played == 'exit':
+                        sys.exit()
+                    else:
+                        played = int(played)
+                        played = player_cards[played-1] #assigning the item @ index value to played
+                except IndexError as index_err:
+                    print("Invalid input, try again")
+                    continue
+                except ValueError as val_err:
+                    print("Invalid input, try again")
+                    continue
+                floor = played
+                player_cards.remove(played)
+                print("new card on the floor: ",floor)
+                break
         else:     
             print("------Picking up a card from the deck. You have no valid card to play ")
             new_card = random.choice(cards_deck)

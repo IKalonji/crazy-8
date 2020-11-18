@@ -25,7 +25,7 @@ def card_deck():
     card_file.close() #close the file
     return card_list
 
-def first_card_issue(cards_deck):
+def first_card_issue(cards_deck, player):
     '''Function to issue the first set of cards to player and comp'''
     random.shuffle(cards_deck) #shuffle the card deck
     print("The card deck has been shuffled") 
@@ -37,7 +37,10 @@ def first_card_issue(cards_deck):
         else: 
             player_cards.append(card) #append the card to the players cards
             cards_deck.remove(card)  #remove the card from the deck.
-    print("Your cards have been issued: {}".format(player_cards))
+    if player == "player":        
+        print("Your cards have been issued: {}".format(player_cards))
+    else:
+        print("CPU player cards have been issued. LET'S GO")
 
     return cards_deck, player_cards
 
@@ -49,26 +52,26 @@ def floor_card_issue(cards_deck):
         if ('8' in floor) or ('10' in floor) or ('JACK' in floor) or ('JOKER' in floor): #if any special card was chosen then process should be repeated
             continue
         else:
-            print("On the floor: ", floor)
+            print("\nOn the floor: ", floor)
             break 
     return floor 
 
 def run_game():
     '''Main Function to run the game.'''
     print("Starting game")
-    name = get_player_name()
+    name = get_player_name().upper()
     cards_deck = card_deck()
-    cards_deck, player_cards = first_card_issue(cards_deck)
-    cards_deck, cpu_player_cards = first_card_issue(cards_deck)
+    cards_deck, player_cards = first_card_issue(cards_deck,'player')
+    cards_deck, cpu_player_cards = first_card_issue(cards_deck, 'cpu')
     floor = floor_card_issue(cards_deck)
     
     while True:
-        print(f"{Fore.GREEN}{name}")
+        print(f"{Fore.GREEN}----{name}'S TURN")
         cards_deck, player_cards, floor =  player(cards_deck, player_cards, floor)
         print("\n")
         print("*"*100)
         time.sleep(3)
-        print(f"{Fore.BLUE}CPU PLAYER")
+        print(f"{Fore.YELLOW}----CPU PLAYER'S TURN")
         cards_deck, cpu_player_cards, floor = cpu_player(cards_deck, cpu_player_cards, floor)
         time.sleep(3)
         print("*"*100)
